@@ -1,0 +1,62 @@
+:root {
+  --theme-100: rgb(255, 245, 231);
+  --theme-200: rgb(255, 237, 212);
+  --theme-500: rgb(255, 193, 107);
+  --theme-500-dark: rgb(206, 155, 84);
+  --theme-shadow: rgba(128, 109, 84, 0.8);
+}
+
+html {
+  font-size: 10px;
+  font-family: "Lato";
+  background-color: var(--theme-100);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: var(--theme-200);
+  display: block;
+  text-align: center;
+  margin-bottom: 5rem;
+  /*   */
+  box-shadow: 0px 3px 20px var(--theme-shadow);
+}
+
+header h1 {
+  /* background-color: lightgreen; */
+  font-size: 4rem;
+  margin: 0;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+main {
+  /* background-color: lightpink; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+input {
+  padding: 15px;
+  width: 80vw;
+  max-width: 500px;
+  font-size: 2rem;
+  border: 2px solid var(--theme-500-dark);
+  border-radius: 10px;
+  background-color: var(--theme-200);
+}
+
+@media only screen and (min-width: 426px) {
+  /* I chose 426px because a Mobile-L size is max 425px in width */
+
+  header h1 {
+    font-size: 3rem;
+    padding-bottom: 20px;
+  }
+}

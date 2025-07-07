@@ -23,12 +23,14 @@
   font-family: "Lato", sans-serif;
   font-weight: 700;
   font-style: normal;
+  font-size: 2rem;
 }
 
 .lato-black {
   font-family: "Lato", sans-serif;
   font-weight: 900;
   font-style: normal;
+  font-size: 4rem;
 }
 
 .lato-light-italic {

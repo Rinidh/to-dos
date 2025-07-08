@@ -69,6 +69,7 @@ input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  position: relative;
   margin-right: 10px;
   height: 30px;
   width: 30px;
@@ -79,6 +80,19 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
   background-color: var(--theme-500-dark);
   color: white;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 0px;
+  /* position: absolute is one of the key principles here */
+  height: 12px;
+  width: 28px;
+  border: solid rgb(255, 255, 255);
+  border-width: 0px 0px 4px 4px;
+  transform: rotate(-45deg);
 }
 
 @media only screen and (min-width: 426px) {

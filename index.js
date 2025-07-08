@@ -21,19 +21,16 @@ input.addEventListener("change", function () { // don't use arrow functions if y
   toDos.push({ value: this.value, isDone: false })
   localStorage.setItem("toDos", JSON.stringify(toDos))
 
-  const newToDo = document.createElement("li")
-  newToDo.textContent = this.value
-  newToDo.classList.add("todos-item")
-  newToDo.classList.add("lato-bold")
+  const newToDo = `<li class="todos-item lato-bold"> <input type="checkbox" id="${this.value}"> <label htmlFor="${this.value}">${this.value}</label> </li>`
+  toDosList.innerHTML = newToDo + toDosList.innerHTML
 
-  toDosList.appendChild(newToDo)
   this.value = ""
 })
 
 document.addEventListener("DOMContentLoaded", function () {
   if (toDos.length < 1) return;
 
-  const toDosHTML = toDos.map(toDo => `<li class="todos-item lato-bold" >${toDo.value}</li>`)
+  const toDosHTML = toDos.map(toDo => `<li class="todos-item lato-bold"> <input type="checkbox" id="${toDo.value}"> <label htmlFor="${toDo.value}">${toDo.value}</li>`)
   toDosList.innerHTML = toDosHTML.join("")
 })
 

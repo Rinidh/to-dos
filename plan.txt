@@ -1,9 +1,10 @@
 Description:
 Create a small web-based to-do list app where users can:
 
-✅ Add tasks via an input form
 ✅ See their tasks listed on the page (DOM Manipulation)
-✅ Mark tasks as completed
+
+✅ Mark tasks as completed  - how to simple design checkmark in box
+✅ Add tasks via an input form
 ✅ Remove tasks
 ✅ Validate that tasks aren't empty or just spaces (Input Sanitization)
 ✅ Gracefully handle errors like empty inputs

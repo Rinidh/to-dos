@@ -61,6 +61,24 @@ input.todos-input,
   margin: 10px 0px;
   border: none;
   background-color: var(--theme-500);
+  display: flex;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  margin-right: 10px;
+  height: 30px;
+  width: 30px;
+  border: 3px solid var(--theme-500-dark);
+  border-radius: 5px;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--theme-500-dark);
+  color: white;
 }
 
 @media only screen and (min-width: 426px) {

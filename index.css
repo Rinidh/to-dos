@@ -61,8 +61,7 @@ input.todos-input,
   margin: 10px 0px;
   border: none;
   background-color: var(--theme-500);
-  display: flex;
-  justify-content: space-between;
+  position: relative;
   cursor: pointer;
 }
 
@@ -103,12 +102,16 @@ input[type="checkbox"]:checked::after {
 }
 
 .todos-item .cross {
-  display: none;
-  font-size: 3rem;
+  visibility: hidden; 
+  position: absolute;
+  right: 15px;
+  top: 7px;
+  padding: 3px 5px;
+  font-size: 4rem;
 }
 
 .todos-item:hover .cross {
-  display: flex;
+  visibility: visible;
 }
 
 @media only screen and (min-width: 426px) {

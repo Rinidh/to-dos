@@ -4,12 +4,13 @@ Create a small web-based to-do list app where users can:
 ✅ See their tasks listed on the page (DOM Manipulation)
 ✅ Mark tasks as completed with checkmark
 ✅ Add tasks via an input form
-
-✅ Remove tasks
+✅ Remove tasks upon clicking crossmark
 ✅ Validate that tasks aren't empty or just spaces (Input Sanitization)
 ✅ Gracefully handle errors like empty inputs
+
 ✅ Structure your code partly with Functional Programming and partly with OOP to see the contrast
-✅ Write 2-3 Jest tests for your functions (e.g., task creation or validation logic)
+      - find out why only the most recent item can be deleted. clicking other crossmarks doesn't delete their to=do items
+✅ See chat - Write 2-3 Jest tests for your functions (e.g., task creation or validation logic)
 
 Features Breakdown:
 Feature	Concept Applied

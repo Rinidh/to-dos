@@ -21,23 +21,29 @@ class ToDo {
   }
 
   insertAsChild() {
-    this.parentElement.innerHTML = this.toHTML() + this.parentElement.innerHTML
+    // this.parentElement.innerHTML = this.toHTML() + this.parentElement.innerHTML // blowing away the whole DOM made the previously attached event-listeners to lost and only the most recently inserted item would have the event-listener
+    const temporaryDiv = document.createElement("div")
+    temporaryDiv.innerHTML = this.toHTML()
+    const toDoElement = temporaryDiv.firstElementChild // use a temporary div into which we assign the raw text-html, then get the actual DOM-Element-Node object of the to-do created by `.firstElementChild`
+    const firstChild = this.parentElement.firstChild
+    this.parentElement.insertBefore(toDoElement, firstChild)
+
     this.addDeleteListener()
   }
 
   delete() {
-    const updatedToDos = toDosArray.filter(toDo => toDo.value !== this.value)
-    toDosArray = updatedToDos
-    localStorage.setItem("toDos", JSON.stringify(toDosArray))
-    toDosList.innerHTML = ""
-    updatedToDos.forEach(toDo => toDo.insertAsChild())
+    const toDoElem = document.querySelector(`[data-text="${this.value}"]`)
+    if (toDoElem) {
+      console.log(toDoElem)
+      toDoElem.remove() // prototype meth in Element to make a DOM element node remove itself from the tree
+      const updatedToDos = toDosArray.filter(toDo => toDo.value !== this.value)
+      toDosArray = updatedToDos
+      localStorage.setItem("toDos", JSON.stringify(toDosArray))
+    }
   }
 
   addDeleteListener() {
     const toDoElement = this.parentElement.querySelector(`[data-text="${this.value}"]`)
-    console.log(toDoElement) // each to-do list-item is correctly logging to console
-
-    // but this listener only appears on the most recent list-item/to-do inserted in the toDOsList in the DOM
     toDoElement.addEventListener("click", (e) => {
       if (e.target.className !== "cross") return;
       this.delete()

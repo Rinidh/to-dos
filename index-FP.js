@@ -18,7 +18,6 @@ input.addEventListener("change", function () { // don't use arrow functions if y
 
   const newToDoElement = createToDoElement(this.value)
   appendToDo(newToDoElement)
-  addDeleteListener(newToDoElement)
 
   this.value = "" //use formElem.reset() if using <form>
 })
@@ -28,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
   toDos.forEach(toDo => {
     const toDoElement = createToDoElement(toDo.value)
     appendToDo(toDoElement)
-    addDeleteListener(toDoElement)
   });
 })
 
@@ -52,15 +50,6 @@ function removeToDo(text) {
   toDosList.querySelector(`[data-text="${text}"]`).remove() // 3. update the DOM
 }
 
-function addDeleteListener(toDoElement) {
-  if (!toDoElement) throw new Error("Pass a to-do element as argument!")
-
-  const crossmark = toDoElement.querySelector(".cross")
-  crossmark.addEventListener("click", function () {
-    removeToDo(this.parentElement.dataset.text)
-  })
-}
-
 function appendToDo(toDoElement) {
   const firstChild = toDosList.firstChild
   if (firstChild) {
@@ -78,6 +67,13 @@ function createToDoElement(text) {
   const checkbox = document.createElement("input")
   checkbox.type = "checkbox"
   checkbox.id = text
+  checkbox.addEventListener("change", function () {
+    if (this.checked) {
+      this.parentElement.style.textDecoration = "line-through"
+    } else {
+      this.parentElement.style.textDecoration = "none"
+    }
+  })
 
   const label = document.createElement("label")
   label.textContent = text
@@ -89,6 +85,9 @@ function createToDoElement(text) {
   const cross = document.createElement("span")
   cross.textContent = "×"
   cross.classList.add("cross")
+  cross.addEventListener("click", function () {
+    removeToDo(this.parentElement.dataset.text)
+  })
 
   newToDo.append(checkBoxLabelGroup, cross)
   return newToDo

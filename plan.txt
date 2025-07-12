@@ -7,28 +7,13 @@ Create a small web-based to-do list app where users can:
 ✅ Remove tasks upon clicking crossmark
 ✅ Validate that tasks aren't empty or just spaces (Input Sanitization)
 ✅ Gracefully handle errors like empty inputs
-
 ✅ Structure your code partly with Functional Programming and partly with OOP to see the contrast
-      - find out why only the most recent item can be deleted. clicking other crossmarks doesn't delete their to=do items
+
+✅ Add persistence to data by localStorage - input items, checked items etc
+✅ Make responsive
 ✅ See chat - Write 2-3 Jest tests for your functions (e.g., task creation or validation logic)
 
-Features Breakdown:
-Feature	Concept Applied
-Add tasks via form	DOM Manipulation, Event Listeners
-Prevent empty/invalid input	Input Sanitization, Conditionals
-Show list of tasks	Loops, DOM updates
-Mark task as complete	DOM updates, Conditional styling
-Delete tasks	Event Listeners, DOM Manipulation
-Use FP for pure functions	Example: Task formatting/validation
-Use OOP for task manager	Example: Class with add/delete methods
-Error messages on bad input	Error Handling, DOM feedback
-Basic Jest tests	Test validation or task creation logic
-
 Bonus Ideas to Extend Later:
-Filter tasks: Show all, completed, or pending tasks
-
-LocalStorage: Save tasks across page reloads
-
 Keyboard shortcuts for adding tasks
-
+Filter tasks: Show all, completed, or pending tasks
 Add confirmation before deleting tasks

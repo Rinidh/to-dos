@@ -16,48 +16,82 @@ input.addEventListener("change", function () { // don't use arrow functions if y
   toDos.unshift({ value: this.value, isDone: false }) // use Array.unshift to add item (todo) at beginning of array, hence recently created to-dos will appear topmost
   localStorage.setItem("toDos", JSON.stringify(toDos))
 
-  const newToDo = toDoHTML(this.value)
-  toDosList.innerHTML = newToDo + toDosList.innerHTML
-  addDeleteToDoListeners()
+  const newToDoElement = createToDoElement(this.value)
+  appendToDo(newToDoElement)
+  addDeleteListener(newToDoElement)
 
-  this.value = ""
+  this.value = "" //use formElem.reset() if using <form>
 })
 
 document.addEventListener("DOMContentLoaded", function () {
   if (toDos.length < 1) return;
-
-  const toDosHTML = toDos.map(toDo => toDoHTML(toDo.value))
-  toDosList.innerHTML = toDosHTML.join("")
-
-  addDeleteToDoListeners()
+  toDos.forEach(toDo => {
+    const toDoElement = createToDoElement(toDo.value)
+    appendToDo(toDoElement)
+    addDeleteListener(toDoElement)
+  });
 })
 
-function toDoHTML(text) {
-  return (
-    `<li class="todos-item lato-bold" data-text="${text}">
-      <span>
-        <input type="checkbox" id="${text}">
-        <label htmlFor="${text}">${text}</label>
-      </span>
-      <span class="cross">×</span>
-    </li>`)
-}
+// function toDoHTML(text) {
+//   return (
+//     `<li class="todos-item lato-bold" data-text="${text}">
+//       <span>
+//         <input type="checkbox" id="${text}">
+//         <label htmlFor="${text}">${text}</label>
+//       </span>
+//       <span class="cross">×</span>
+//     </li>`)
+// }
 
 function removeToDo(text) {
   const updatedToDos = toDos.filter(toDo => toDo.value !== text)
-  console.log(updatedToDos)
   toDos = updatedToDos // 1. updated the local array
+
   localStorage.setItem("toDos", JSON.stringify(updatedToDos)) // 2. update the localStorage (for persistence in case of reload later)
-  toDosList.innerHTML = updatedToDos.map(toDo => toDoHTML(toDo.value)).join("") // 3. update the DOM
-  addDeleteToDoListeners()
+
+  toDosList.querySelector(`[data-text="${text}"]`).remove() // 3. update the DOM
 }
 
-function addDeleteToDoListeners() {
-  const toDoItems = [...toDosList.querySelectorAll(".todos-item")]
-  toDoItems.forEach(toDoItem => toDoItem.addEventListener("click", function (e) {
-    if (e.target.className !== "cross") return
-    removeToDo(toDoItem.dataset.text)
-  }))
+function addDeleteListener(toDoElement) {
+  if (!toDoElement) throw new Error("Pass a to-do element as argument!")
+
+  const crossmark = toDoElement.querySelector(".cross")
+  crossmark.addEventListener("click", function () {
+    removeToDo(this.parentElement.dataset.text)
+  })
+}
+
+function appendToDo(toDoElement) {
+  const firstChild = toDosList.firstChild
+  if (firstChild) {
+    toDosList.insertBefore(toDoElement, firstChild)
+  } else {
+    toDosList.appendChild(toDoElement)
+  }
+}
+
+function createToDoElement(text) {
+  const newToDo = document.createElement("li")
+  newToDo.dataset.text = text
+  newToDo.classList.add("todos-item", "lato-bold")
+
+  const checkbox = document.createElement("input")
+  checkbox.type = "checkbox"
+  checkbox.id = text
+
+  const label = document.createElement("label")
+  label.textContent = text
+  label.htmlFor = text
+
+  const checkBoxLabelGroup = document.createElement("span")
+  checkBoxLabelGroup.append(checkbox, label)
+
+  const cross = document.createElement("span")
+  cross.textContent = "×"
+  cross.classList.add("cross")
+
+  newToDo.append(checkBoxLabelGroup, cross)
+  return newToDo
 }
 
 

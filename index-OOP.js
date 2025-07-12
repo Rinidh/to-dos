@@ -23,7 +23,7 @@ class ToDo {
 
   insertAsChild() {
     // this.parentElement.innerHTML = this.toHTML() + this.parentElement.innerHTML // blowing away the whole DOM made the previously attached event-listeners to lost and only the most recently inserted item would have the event-listener
-    const temporaryDiv = document.createElement("div")
+    const temporaryDiv = document.createElement("div") // OR use document.createElement("li"); li.dataset.text = `${this.value}` ... SEE INDEX-FP.JS
     temporaryDiv.innerHTML = this.toHTML()
     const toDoElement = temporaryDiv.firstElementChild // use a temporary div into which we assign the raw text-html, then get the actual DOM-Element-Node object of the to-do created by `.firstElementChild`
     const firstChild = this.parentElement.firstChild

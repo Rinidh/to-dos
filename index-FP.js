@@ -1,6 +1,7 @@
 const input = document.querySelector(".todos-input")
 const toDosList = document.querySelector(".todos-list")
 const errorMsg = document.querySelector(".error-msg")
+import { appendToDo, removeToDo } from "./utilityFuncs.js"
 
 const storage = localStorage.getItem("toDos")
 let toDos = storage ? JSON.parse(storage) : []
@@ -17,7 +18,7 @@ input.addEventListener("change", function () { // don't use arrow functions if y
   localStorage.setItem("toDos", JSON.stringify(toDos))
 
   const newToDoElement = createToDoElement(this)
-  appendToDo(newToDoElement)
+  appendToDo(newToDoElement, toDosList)
 
   this.value = "" //use formElem.reset() if using <form>
 })
@@ -28,27 +29,9 @@ document.addEventListener("DOMContentLoaded", function () {
     .reverse()
     .forEach(toDo => {
       const toDoElement = createToDoElement(toDo)
-      appendToDo(toDoElement)
+      appendToDo(toDoElement, toDosList)
     });
 })
-
-function removeToDo(text) {
-  const updatedToDos = toDos.filter(toDo => toDo.value !== text)
-  toDos = updatedToDos // 1. updated the local array
-
-  localStorage.setItem("toDos", JSON.stringify(updatedToDos)) // 2. update the localStorage (for persistence in case of reload later)
-
-  toDosList.querySelector(`[data-text="${text}"]`).remove() // 3. update the DOM
-}
-
-function appendToDo(toDoElement) {
-  const firstChild = toDosList.firstChild
-  if (firstChild) {
-    toDosList.insertBefore(toDoElement, firstChild)
-  } else {
-    toDosList.appendChild(toDoElement)
-  }
-}
 
 function createToDoElement({ value, isDone }) {
   const newToDo = document.createElement("li")
@@ -83,17 +66,11 @@ function createToDoElement({ value, isDone }) {
   cross.textContent = "×"
   cross.classList.add("cross")
   cross.addEventListener("click", function () {
-    removeToDo(this.parentElement.dataset.text)
+    const updatedToDos = removeToDo(this.parentElement.dataset.text, toDos, toDosList)
+    toDos = updatedToDos
   })
 
   newToDo.append(checkBoxLabelGroup, cross)
   return newToDo
 }
 
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = {
-    createToDoElement,
-    appendToDo,
-    removeToDo
-  }
-}

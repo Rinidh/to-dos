@@ -16,7 +16,7 @@ input.addEventListener("change", function () { // don't use arrow functions if y
   toDos.unshift({ value: this.value, isDone: false }) // use Array.unshift to add item (todo) at beginning of array, hence recently created to-dos will appear topmost
   localStorage.setItem("toDos", JSON.stringify(toDos))
 
-  const newToDoElement = createToDoElement(this.value)
+  const newToDoElement = createToDoElement(this)
   appendToDo(newToDoElement)
 
   this.value = "" //use formElem.reset() if using <form>
@@ -24,22 +24,13 @@ input.addEventListener("change", function () { // don't use arrow functions if y
 
 document.addEventListener("DOMContentLoaded", function () {
   if (toDos.length < 1) return;
-  toDos.forEach(toDo => {
-    const toDoElement = createToDoElement(toDo.value)
-    appendToDo(toDoElement)
-  });
+  toDos
+    .reverse()
+    .forEach(toDo => {
+      const toDoElement = createToDoElement(toDo)
+      appendToDo(toDoElement)
+    });
 })
-
-// function toDoHTML(text) {
-//   return (
-//     `<li class="todos-item lato-bold" data-text="${text}">
-//       <span>
-//         <input type="checkbox" id="${text}">
-//         <label htmlFor="${text}">${text}</label>
-//       </span>
-//       <span class="cross">×</span>
-//     </li>`)
-// }
 
 function removeToDo(text) {
   const updatedToDos = toDos.filter(toDo => toDo.value !== text)
@@ -59,25 +50,31 @@ function appendToDo(toDoElement) {
   }
 }
 
-function createToDoElement(text) {
+function createToDoElement({ value, isDone }) {
   const newToDo = document.createElement("li")
-  newToDo.dataset.text = text
+  newToDo.dataset.text = value
   newToDo.classList.add("todos-item", "lato-bold")
 
   const checkbox = document.createElement("input")
   checkbox.type = "checkbox"
-  checkbox.id = text
+  checkbox.id = value
+  checkbox.checked = isDone
   checkbox.addEventListener("change", function () {
     if (this.checked) {
       this.parentElement.style.textDecoration = "line-through"
     } else {
       this.parentElement.style.textDecoration = "none"
     }
+
+    const toDo = toDos.find(t => t.value === value)
+    toDo.isDone = !toDo.isDone
+    localStorage.setItem("toDos", JSON.stringify(toDos))
   })
 
   const label = document.createElement("label")
-  label.textContent = text
-  label.htmlFor = text
+  label.textContent = value
+  label.htmlFor = value
+  label.style.textDecoration = isDone ? "line-through" : "none"
 
   const checkBoxLabelGroup = document.createElement("span")
   checkBoxLabelGroup.append(checkbox, label)
@@ -93,4 +90,10 @@ function createToDoElement(text) {
   return newToDo
 }
 
-
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    createToDoElement,
+    appendToDo,
+    removeToDo
+  }
+}
